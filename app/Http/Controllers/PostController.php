@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -18,9 +19,18 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'max:255', 'min:5', 'unique:posts,title,' . $post->id],
+            'content' => ['required', 'max:1000', 'min:5'],
+        ]);
+
+        $validated['user_id'] = Auth::id();
+        Post::create($validated);
+
+       return to_route('posts.index');
+
     }
 
     public function show(Post $post)
