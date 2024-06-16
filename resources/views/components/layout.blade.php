@@ -7,14 +7,15 @@
 
     @vite('resources/css/app.css')
 
-    <title>Blog with Admin</title>
+    <title>tony 1</title>
 </head>
-<body>
+<body class="bg-gray-800 text-gray-200">
 
-    <div>
+    <x-navbar />
+
+    <div class="max-w-6xl mx-auto">
         {{ $slot }}
     </div>
 
 </body>
 </html>
-
