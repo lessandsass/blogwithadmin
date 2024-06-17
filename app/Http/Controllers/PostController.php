@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use PHPUnit\Event\Telemetry\GarbageCollectorStatus;
 
 class PostController extends Controller
 {
@@ -41,11 +43,13 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        Gate::authorize('update', $post);
         return view('posts.edit', [ 'post' => $post ]);
     }
 
     public function update(Request $request, Post $post)
     {
+        Gate::authorize('update', $post);
         $validated = $request->validate([
             'title' => ['required', 'max:255', 'min:5', 'unique:posts,title,' . $post->id],
             'content' => ['required', 'max:1000', 'min:5'],
@@ -58,6 +62,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
         $post->delete();
         return to_route('posts.index');
     }
