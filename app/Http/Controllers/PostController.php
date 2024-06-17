@@ -26,7 +26,9 @@ class PostController extends Controller
             'content' => ['required', 'max:1000', 'min:5'],
         ]);
 
-        Post::create($validated);
+        $validated['user_id'] = Auth::id();
+
+        auth()->user()->posts()->create($validated);
 
        return to_route('posts.index');
 
