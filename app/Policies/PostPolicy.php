@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\Response;
 class PostPolicy
 {
 
-    public function before(User $user, string $ability) : bool|null
+    public function before(User $user) : bool|null
     {
         if ($user->is_admin) {
             return true;

@@ -38,6 +38,15 @@
                     Posts
                 </x-navbar-link>
 
+                @if (Auth::check() && Auth::user()->is_admin)
+                    <x-navbar-link
+                        href="/admin"
+                        :active="request()->is('admin')"
+                    >
+                        Admin
+                    </x-navbar-link>
+                @endif
+
                 @guest
                     <x-navbar-link
                         href="/register"
