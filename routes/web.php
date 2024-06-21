@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\LoginUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -19,7 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('is-admin');
+    Route::middleware('is-admin')->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+        Route::get('/admin/posts/{post}/edit', [AdminPostController::class, 'edit'])->name('admin.posts.edit');
+        Route::put('/admin/posts/{post}/update', [AdminPostController::class, 'update'])->name('admin.posts.update');
+        Route::delete('/admin/posts/{post}/destroy', [AdminPostController::class, 'destroy'])->name('admin.posts.destroy');
+    });
 
 });
 

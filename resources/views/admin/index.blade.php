@@ -27,7 +27,7 @@
                     Title
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    CReated at
+                    Created at
                 </th>
                 <th scope="col" class="px-6 py-3">
                     &nbsp;
@@ -50,8 +50,17 @@
                     <td class="px-6 py-4">
                         {{ $post->created_at }}
                     </td>
-                    <td class="px-6 py-4">
-                        Edit / Delete
+                    <td class="px-6 py-4 flex space-x-2 justify-end">
+
+                        <a href="{{ route('admin.posts.edit', $post->id) }}" class="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-blue-800">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-blue-800">Delete</button>
+                        </form>
                     </td>
                 </tr>
 
