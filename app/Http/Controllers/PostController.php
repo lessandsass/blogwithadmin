@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use PHPUnit\Event\Telemetry\GarbageCollectorStatus;
 
@@ -26,10 +27,10 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'max:255', 'min:5', 'unique:posts,title,' . $post->id],
             'content' => ['required', 'max:1000', 'min:5'],
+            'thumbnail' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
-        $validated['user_id'] = Auth::id();
-
+        $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         auth()->user()->posts()->create($validated);
 
        return to_route('posts.index');
@@ -53,7 +54,14 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'max:255', 'min:5', 'unique:posts,title,' . $post->id],
             'content' => ['required', 'max:1000', 'min:5'],
+            'thumbnail' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            File::delete(storage_path('app/public/' . $post->thumbnail));
+            $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        }
 
         $post->update($validated);
         return to_route('posts.show', ['post' => $post ]);
@@ -63,6 +71,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         Gate::authorize('delete', $post);
+        File::delete(storage_path('app/public/' . $post->thumbnail));
         $post->delete();
         return to_route('posts.index');
     }

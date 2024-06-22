@@ -3,7 +3,7 @@
     <x-header>Create Post Page</x-header>
 
     <div class="max-w-2xl mx-auto p-4 bg-gray-800 rounded-lg">
-        <form action="{{ route('posts.update', $post) }}" method="post">
+        <form action="{{ route('posts.update', $post) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -32,6 +32,15 @@
                 >{{ $post->content }}</textarea>
 
                 @error('content')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-6">
+                <label class="block mb-2 text-sm font-medium text-white" for="file_input">Thumbnail</label>
+                <input class="block w-full text-sm border  rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-900 border-gray-900 placeholder-gray-600" id="thumbnail" name="thumbnail" type="file">
+
+                @error('thumbnail')
                     <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
             </div>

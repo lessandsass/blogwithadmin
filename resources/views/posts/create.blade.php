@@ -3,7 +3,7 @@
     <x-header>Create Post Page</x-header>
 
     <div class="max-w-2xl mx-auto p-4 bg-gray-800 rounded-lg">
-        <form action="{{ route('posts.store') }}" method="post">
+        <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-6">
@@ -12,6 +12,7 @@
                     type="text"
                     name="title"
                     id="title"
+                    value="{{ old('title') }}"
                     class="block w-full p-3 bg-gray-900 border border-gray-800 placeholder-gray-500 text-gray-300 rounded-lg focus:outline-none @error('title') border-red-500 @enderror"
                     placeholder="Write your title here . . ."
                 >
@@ -25,14 +26,26 @@
                 <label for="content" class="block mb-2 text-sm font-medium text-gray-200">Content</label>
                 <textarea
                     name="content"
+                    rows="4"
                     id="content"
                     class="block w-full p-3 bg-gray-900 border border-gray-800 placeholder-gray-500 text-gray-300 rounded-lg focus:outline-none @error('title') border-red-500 @enderror"
                     placeholder="Write your title here . . ."
-                ></textarea>
+                >{{ old('content') }}</textarea>
 
                 @error('content')
                     <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
+            </div>
+
+            <div class="mb-6">
+
+                <label class="block mb-2 text-sm font-medium text-white" for="file_input">Thumbnail</label>
+                <input class="block w-full text-sm border  rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-900 border-gray-900 placeholder-gray-600" id="thumbnail" name="thumbnail" type="file">
+
+                @error('thumbnail')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
+
             </div>
 
             <div class="mb-6">

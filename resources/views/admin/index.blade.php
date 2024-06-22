@@ -67,7 +67,7 @@
             @empty
 
                 <tr class="border-b bg-gray-800 border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <th scope="row" class="px-6 py-4 text-4xl font-medium text-gray-200 whitespace-nowrap">
                         No posts
                     </th>
                 </tr>
