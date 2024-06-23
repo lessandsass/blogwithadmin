@@ -1,5 +1,5 @@
 <x-layout>
-
+    
     <x-header>Create Post Page</x-header>
 
     <div class="max-w-2xl mx-auto p-4 bg-gray-800 rounded-lg">
